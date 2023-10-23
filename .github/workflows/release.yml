@@ -161,12 +161,8 @@ jobs:
           go build -o x-ui-windows-amd64.exe main.go
 
       - name: package
-        uses: actions/upload-artifact@v3
-        with:
-          name: x-ui-windows-amd64.zip
-          path: |
-            x-ui-windows-amd64.exe
-            bin/*
+        run: |
+          Compress-Archive -Path x-ui-windows-amd64.exe, bin/* -DestinationPath x-ui-windows-amd64.zip
       - name: upload
         uses: actions/upload-release-asset@v1
         env:
