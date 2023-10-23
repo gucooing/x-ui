@@ -145,3 +145,34 @@ jobs:
           asset_path: x-ui-linux-s390x.tar.gz
           asset_name: x-ui-linux-s390x.tar.gz
           asset_content_type: application/gzip
+  windowsamd64build:
+    name: build x-ui windowsamd64 version
+    needs: release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+      - name: build windows amd64 version
+        run: |
+          go mod tidy
+          go build -o x-ui-windows-amd64.exe main.go
+
+      - name: package
+        uses: actions/upload-artifact@v3
+        with:
+          name: x-ui-windows-amd64.zip
+          path: |
+            x-ui-windows-amd64.exe
+            bin/*
+      - name: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GAYHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: x-ui-windows-amd64.zip
+          asset_name: x-ui-windows-amd64.zip
+          asset_content_type: application/gzip
