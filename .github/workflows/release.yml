@@ -161,7 +161,7 @@ jobs:
 
       - name: package
         run: |
-          Compress-Archive -Path x-ui-windows-amd64.exe, bin/* -DestinationPath x-ui-windows-amd64.zip
+          Compress-Archive -Path x-ui-windows-amd64.exe, bin -DestinationPath x-ui-windows-amd64.zip
       - name: upload
         uses: actions/upload-release-asset@v1
         env:
