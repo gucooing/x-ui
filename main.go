@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 	_ "unsafe"
+
 	"x-ui/config"
 	"x-ui/database"
 	"x-ui/logger"
@@ -51,7 +52,7 @@ func runWebServer() {
 	}
 
 	sigCh := make(chan os.Signal, 1)
-	//信号量捕获处理
+	// 信号量捕获处理
 	signal.Notify(sigCh, syscall.SIGHUP, syscall.SIGTERM, syscall.SIGKILL)
 	for {
 		sig := <-sigCh
@@ -217,7 +218,7 @@ func main() {
 
 	v2uiCmd := flag.NewFlagSet("v2-ui", flag.ExitOnError)
 	var dbPath string
-	v2uiCmd.StringVar(&dbPath, "db", "/etc/v2-ui/v2-ui.db", "set v2-ui db file path")
+	v2uiCmd.StringVar(&dbPath, "db", "data/v2-ui.db", "set v2-ui db file path")
 
 	settingCmd := flag.NewFlagSet("setting", flag.ExitOnError)
 	var port int

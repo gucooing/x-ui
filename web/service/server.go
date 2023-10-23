@@ -5,21 +5,23 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
-	"github.com/shirou/gopsutil/host"
-	"github.com/shirou/gopsutil/load"
-	"github.com/shirou/gopsutil/mem"
-	"github.com/shirou/gopsutil/net"
 	"io"
 	"io/fs"
 	"net/http"
 	"os"
 	"runtime"
 	"time"
+
 	"x-ui/logger"
 	"x-ui/util/sys"
 	"x-ui/xray"
+
+	"github.com/shirou/gopsutil/cpu"
+	"github.com/shirou/gopsutil/disk"
+	"github.com/shirou/gopsutil/host"
+	"github.com/shirou/gopsutil/load"
+	"github.com/shirou/gopsutil/mem"
+	"github.com/shirou/gopsutil/net"
 )
 
 type ProcessState string
@@ -269,6 +271,10 @@ func (s *ServerService) UpdateXray(version string) error {
 	}()
 
 	copyZipFile := func(zipName string, fileName string) error {
+		if runtime.GOOS == "windows" { // TODO
+			zipName = "xray.exe"
+			fileName = "bin/xray-windows-amd64.exe"
+		}
 		zipFile, err := reader.Open(zipName)
 		if err != nil {
 			return err

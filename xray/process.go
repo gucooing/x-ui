@@ -14,6 +14,7 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
 	"x-ui/util/common"
 
 	"github.com/Workiva/go-datastructures/queue"
@@ -24,6 +25,9 @@ import (
 var trafficRegex = regexp.MustCompile("(inbound|outbound)>>>([^>]+)>>>traffic>>>(downlink|uplink)")
 
 func GetBinaryName() string {
+	if runtime.GOOS == "windows" { // TODO
+		return fmt.Sprintf("xray-windows-amd64.exe")
+	}
 	return fmt.Sprintf("xray-%s-%s", runtime.GOOS, runtime.GOARCH)
 }
 
